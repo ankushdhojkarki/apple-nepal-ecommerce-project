@@ -37,3 +37,4 @@ def productdetails_view(request):
 
     context = {'product': product}
     return render(request, 'product-details.html', context) 
+
