@@ -15,3 +15,8 @@ env/
 
 # Environment/Security
 .env
+
+# .gitignore content
+__pycache__/
+*.pyc
+db.sqlite3

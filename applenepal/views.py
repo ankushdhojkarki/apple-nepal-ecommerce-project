@@ -21,7 +21,7 @@ def products_view(request):
     category_id = request.GET.get('category')
     all_products = Products.objects.all()
     if category_id and category_id.isdigit():
-        all_products = all_products.filter(category_id = int(category_id))
+        all_products = all_products.filter(category_id = int(category_id)) 
     context = {'products': all_products}
     return render(request, 'products.html', context)
 
