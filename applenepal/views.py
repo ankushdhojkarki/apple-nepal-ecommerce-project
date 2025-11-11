@@ -25,7 +25,7 @@ def products_view(request):
     context = {'products': all_products}
     return render(request, 'products.html', context)
 
-def productdetails_view(request):
+def productdetails_view(request, pk):
     product_id_str = request.GET.get('id')  
 
     if not product_id_str or not product_id_str.isdigit():
@@ -33,7 +33,7 @@ def productdetails_view(request):
 
     
     product_id = int(product_id_str)
-    product = get_object_or_404(Products, product_id=product_id)
+    product = get_object_or_404(Products, product_id=pk)
 
     context = {'product': product}
     return render(request, 'product-details.html', context) 

@@ -30,9 +30,9 @@ def products_view(request):
     context = {'products': Products.objects.all()}
     return render(request, 'products.html', context)
 
-def productdetails_view(request):
+def productdetails_view(request, pk):
     product_id_value = request.GET.get('id')
-    product = get_object_or_404(Products, product_id=product_id_value)
+    product = get_object_or_404(Products, product_id=pk)
     context = {'product':product}
     return render(request, 'product-details.html', context)
 
