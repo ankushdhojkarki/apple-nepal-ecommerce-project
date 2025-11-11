@@ -1,6 +1,6 @@
 {% extends "master.html" %}
 {% load humanize %}
-
+<-- SNIPPET STARTS -->
 {% block title %}Products - Apple Nepal{% endblock %}
 
 {% block nav_products_active %}active{% endblock %}
@@ -18,11 +18,12 @@
         {% for product in products %}
         <div class="col-md-3 d-flex">
             <div class="card h-100 product-card">
-                {% if product.product_image %}
-                    <img src="{{ product.product_image.url }}" class="card-img-top" alt="{{ product.product_name }}">
-                {% else %}
-                    <img src="/static/images/placeholder.png" class="card-img-top" alt="No image available">
-                {% endif %}
+                {% comment %} Logic: Check URL > Check Uploaded File > Use Placeholder {% endcomment %}
+                <img 
+                    src="{% if product.product_image_url %}{{ product.product_image_url }}{% elif product.product_image %}{{ product.product_image.url }}{% else %}/static/images/placeholder.png{% endif %}"
+                    class="card-img-top" 
+                    alt="{{ product.product_name }}"
+                >
                 
                 <div class="card-body">
                     <h5 class="card-title">{{ product.product_name }}</h5>
@@ -32,7 +33,7 @@
                 
                 <div class="p-3">
                     <a href="{% url 'product-details' product.product_id %}" class="btn btn-primary w-100">View Details</a>
-                    </div>
+                </div>
             </div>
         </div>
         {% endfor %}

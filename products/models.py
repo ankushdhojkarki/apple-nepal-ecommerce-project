@@ -3,7 +3,8 @@ from categories.models import Categories
 
 # Create your models here.
 class Products(models.Model):
-    product_image = models.ImageField(upload_to='product_images/')
+    product_image = models.ImageField(upload_to='product_images/', blank=True, null=True)
+    product_image_url = models.URLField(max_length=500, blank=True, null=True)
     product_name = models.CharField(max_length = 255)
     product_id = models.AutoField(primary_key=True)
     product_price = models.DecimalField(max_digits=10, decimal_places=2)

@@ -1,6 +1,6 @@
 {% extends "master.html" %}
 {% load humanize %}
-
+<-- SNIPPET STARTS -->
 {% block title %}{{ product.product_name }} Details - Apple Nepal{% endblock %}
 
 {% block content %}
@@ -9,7 +9,7 @@
         <div class="col-md-6">
             <div class="product-image-wrapper">
                 <img
-                    src="{{ product.product_image}}"
+                    src="{% if product.product_image_url %}{{ product.product_image_url }}{% elif product.product_image %}{{ product.product_image.url }}{% else %}/static/images/placeholder.png{% endif %}"
                     class="img-fluid rounded-3"
                     alt="{{ product.product_name }}"
                 />
