@@ -4,13 +4,19 @@ from products.forms import AddProductsForm
 from django.http import HttpResponseRedirect
 
 # Create your views here.
+
 def addproducts_views(request):
+    context = {}
     submitted = False
+    print(request.POST)
     if request.method == "POST":
-        form = AddProductsForm(request.POST)
+        form = AddProductsForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect('/add_products/?submitted=True')
+        else:
+            print(form.errors)     
+            return render(request, 'add_products.html', context= {'errors' : form.errors})
     else:
         form = AddProductsForm()
         if 'submitted' in request.GET:
