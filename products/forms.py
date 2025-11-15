@@ -19,4 +19,4 @@ class AddProductsForm(ModelForm):
         if not image_file and not image_url:
             raise forms.ValidationError("You must provide either an image file or an external image URL.")
         
-        return cleaned_data
+        return cleaned_data 
