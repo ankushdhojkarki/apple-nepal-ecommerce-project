@@ -20,3 +20,4 @@ def preproduct_delete(sender, instance, *args, **kwargs):
 @receiver(post_delete, sender = Products)
 def postproduct_delete(sender, instance, *args, **kwargs):
     print(f"DEBUG (post_delete): The following product has been deleted successfully: {instance.product_name}") 
+   

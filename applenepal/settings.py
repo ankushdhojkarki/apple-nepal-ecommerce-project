@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django_extensions',
     'products',
     'categories',
-    'accounts'
+    'accounts',
+    'widget_tweaks',
 ]
 
 AUTHENTICATION_BACKENDS = [
