@@ -2,8 +2,15 @@ from django.shortcuts import render, get_object_or_404
 from products.models import Products
 from products.forms import AddProductsForm
 from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.urls import reverse
 
 # Create your views here.
+def is_admin(user):
+    return user.is_superuser
+
+@login_required
+@user_passes_test(is_admin)
 
 def addproducts_views(request):
     context = {}
@@ -13,7 +20,7 @@ def addproducts_views(request):
         form = AddProductsForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/add_products/?submitted=True')
+            return HttpResponseRedirect(reverse('add-products') + '?submitted=True')
         else:
             print(form.errors)     
             return render(request, 'add_products.html', context= {'errors' : form.errors})
