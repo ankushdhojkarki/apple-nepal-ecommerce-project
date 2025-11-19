@@ -1,159 +1,90 @@
+{% extends "master.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{% block title %}Product Admin - Dashboard{% endblock %}</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700">
-    <link rel="stylesheet" href="{% static 'css/fontawesome.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/templatemo-style.css' %}">
-</head>
+{% block extra_head %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        /* Specific styling to match Apple's clean aesthetic within the dashboard */
+        .admin-sidebar {
+            background-color: #f8f8f8; /* Light gray sidebar */
+            border-right: 1px solid #ddd;
+            padding: 20px 0;
+            min-height: 100vh;
+        }
+        .admin-sidebar .nav-link {
+            color: #333;
+            padding: 10px 20px;
+            font-weight: 500;
+        }
+        .admin-sidebar .nav-link.active, .admin-sidebar .nav-link:hover {
+            background-color: #fff;
+            color: #007aff; /* Apple Blue */
+            border-left: 3px solid #007aff;
+        }
+        .dashboard-card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Soft shadow */
+        }
+        .dashboard-header {
+            background-color: white;
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+    </style>
+{% endblock %}
 
-<body id="reportsPage">
-    <div class="" id="home">
-        <nav class="navbar navbar-expand-xl">
-            <div class="container h-100">
-                <a class="navbar-brand" href="{% url 'admin-dashboard' %}">
-                    <h1 class="tm-site-title mb-0">Admin Dashboard</h1>
-                </a>
-                <button class="navbar-toggler ml-auto mr-0" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <i class="fas fa-bars tm-nav-icon"></i>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mx-auto h-100">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="{% url 'admin-dashboard' %}">
-                                <i class="fas fa-tachometer-alt"></i>
-                                Dashboard
-                                <span class="sr-only">(current)</span>
-                            </a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                                <i class="far fa-file-alt"></i>
-                                <span>
-                                    Reports <i class="fas fa-angle-down"></i>
-                                </span>
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">Daily Report</a>
-                                <a class="dropdown-item" href="#">Weekly Report</a>
-                                <a class="dropdown-item" href="#">Yearly Report</a>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'products' %}">
-                                <i class="fas fa-shopping-cart"></i>
-                                Products
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'signup' %}">
-                                <i class="far fa-user"></i>
-                                Accounts
-                            </a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-cog"></i>
-                                <span>
-                                    Settings <i class="fas fa-angle-down"></i>
-                                </span>
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">Profile</a>
-                                <a class="dropdown-item" href="#">Billing</a>
-                                <a class="dropdown-item" href="#">Customize</a>
-                            </div>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            {% if user.is_authenticated %}
-                            <a class="nav-link d-block" href="{% url 'logout' %}">
-                                {{ user.username }}, <b>Logout</b>
-                            </a>
-                            {% else %}
-                            <a class="nav-link d-block" href="{% url 'login' %}">
-                                Login
-                            </a>
-                            {% endif %}
-                        </li>
-                    </ul>
-                </div>
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3 col-lg-2 admin-sidebar">
+            <div class="d-flex flex-column p-3">
+                <h5 class="fw-bold mb-4 text-dark">Admin Menu</h5>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link {% block nav_dashboard_active %}{% endblock %}" href="{% url 'admin-dashboard' %}">
+                            <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% block nav_add_product_active %}{% endblock %}" href="{% url 'add-products' %}">
+                            <i class="fas fa-plus me-2"></i> Add Product
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% block nav_view_products_active %}{% endblock %}" href="{% url 'products' %}">
+                            <i class="fas fa-list me-2"></i> View Products
+                        </a>
+                    </li>
+                    <li class="nav-item mt-4 pt-4 border-top">
+                        <form action="{% url 'logout' %}" method="post" class="d-block">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-outline-danger w-100 text-start">
+                                <i class="fas fa-sign-out-alt me-2"></i> Secure Logout
+                            </button>
+                        </form>
+                    </li>
+                </ul>
             </div>
+        </div>
 
-        </nav>
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <p class="text-white mt-5 mb-5">Welcome back, <b>{% if user.is_authenticated %}{{ user.username }}{% else %}Admin{% endif %}</b></p>
-                </div>
-            </div>
+        <div class="col-md-9 col-lg-10 p-4">
+            <header class="dashboard-header mb-4">
+                <h1 class="display-5 fw-bold text-dark">{% block dashboard_header %}{% endblock %}</h1>
+                <p class="text-muted">Welcome back, **{{ user.username|default:"Admin" }}**.</p>
+            </header>
             
-            <div class="row tm-content-row">
-                {% block admin_content %}
-                
-                    {% endblock admin_content %}
-            </div>
-            </div>
-        <footer class="tm-footer row tm-mt-small">
-            <div class="col-12 font-weight-light">
-    <footer class="bg-dark text-white py-4">
-      <div class="container text-center">
-        <p>&copy; 2025 Apple Nepal. All rights reserved.</p>
-      </div>
-    </footer>
-            </div>
-        </footer>
+            {% block admin_content %}
+                {% endblock admin_content %}
+        </div>
     </div>
+</div>
+{% endblock content %}
 
-    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
-    <script src="{% static 'js/moment.min.js' %}"></script>
+{% block extra_js %}
     <script src="{% static 'js/Chart.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/tooplate-scripts.js' %}"></script>
-    
-    {% block extra_js %}{% endblock extra_js %}
-    
     <script>
-        // ... (The JavaScript for charts and initialization should stay here, but needs context on where to place it in the child template if moved)
-        // Leaving initialization scripts here for simplicity as they were in the original file
-        Chart.defaults.global.defaultFontColor = 'white';
-        let ctxLine,
-            ctxBar,
-            ctxPie,
-            optionsLine,
-            optionsBar,
-            optionsPie,
-            configLine,
-            configBar,
-            configPie,
-            lineChart;
-        barChart, pieChart;
-        // DOM is ready
-        $(function () {
-            // Note: These chart functions are dependent on specific HTML elements defined in the original index.html.
-            // Since we moved the content to a block, we'll redefine the minimum necessary content in admin_dashboard.html.
-            // For now, these functions are in the base and will only run if the child template includes the necessary canvas tags.
-            // drawLineChart(); 
-            // drawBarChart(); 
-            // drawPieChart(); 
-
-            $(window).resize(function () {
-                // updateLineChart();
-                // updateBarChart();                
-            });
-        })
+        // Placeholder for any admin-specific dashboard JS
     </script>
-</body>
-</html>
+{% endblock %}
