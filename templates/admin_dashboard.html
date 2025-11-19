@@ -1,0 +1,63 @@
+{% extends "admin_base.html" %}
+{% load humanize %}
+
+{% block title %}Admin Dashboard Overview{% endblock %}
+
+{% block admin_content %}
+    
+    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 tm-block-col">
+        <div class="tm-bg-primary-dark tm-block">
+            <h2 class="tm-block-title">Product Count</h2>
+            <p class="text-white">Total number of products currently in the database.</p>
+            <div class="d-flex justify-content-center align-items-center" style="height: 200px;">
+                <h1 class="display-1 text-success">{{ total_products|default:"0" }}</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 tm-block-col">
+        <div class="tm-bg-primary-dark tm-block">
+            <h2 class="tm-block-title">Quick Actions</h2>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item tm-bg-primary-dark">
+                    <a href="{% url 'add-products' %}" class="tm-footer-link">
+                        <i class="fas fa-plus mr-2"></i> Add New Product
+                    </a>
+                </li>
+                <li class="list-group-item tm-bg-primary-dark">
+                    <a href="{% url 'products' %}" class="tm-footer-link">
+                        <i class="fas fa-list mr-2"></i> View All Products
+                    </a>
+                </li>
+                
+                <li class="list-group-item tm-bg-primary-dark">
+                    <form action="{% url 'logout' %}" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn tm-footer-link p-0 m-0 border-0 bg-transparent text-white-50 d-flex align-items-center">
+                            <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                        </button>
+                    </form>
+                </li>
+                </ul>
+        </div>
+    </div>
+
+    <div class="col-12 tm-block-col">
+        <div class="tm-bg-primary-dark tm-block tm-block-taller tm-block-scroll">
+            <h2 class="tm-block-title">Orders List Placeholder</h2>
+            <table class="table">
+                <thead>
+                    <tr><th scope="col">ORDER NO.</th><th scope="col">STATUS</th><th scope="col">OPERATORS</th><th scope="col">LOCATION</th><th scope="col">DELIVERY DATE</th><th scope="col">TOTAL PRICE</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><b>#12234</b></td><td><div class="tm-status-circle moving"></div>Pending</td><td><b>John Doe</b></td><td><b>Kathmandu</b></td><td>28 Nov, 2025</td><td>NPR. 12,000</td></tr>
+                    <tr><td><b>#12235</b></td><td><div class="tm-status-circle pending"></div>Processing</td><td><b>Jane Smith</b></td><td><b>Lalitpur</b></td><td>29 Nov, 2025</td><td>NPR. 25,500</td></tr>
+                    <tr><td><b>#12236</b></td><td><div class="tm-status-circle cancelled"></div>Cancelled</td><td><b>Michael Brown</b></td><td><b>Pokhara</b></td><td>30 Nov, 2025</td><td>NPR. 8,990</td></tr>
+                    <tr><td><b>#12237</b></td><td><div class="tm-status-circle moving"></div>Pending</td><td><b>David Green</b></td><td><b>Biratnagar</b></td><td>01 Dec, 2025</td><td>NPR. 45,000</td></tr>
+                    <tr><td><b>#12238</b></td><td><div class="tm-status-circle delivered"></div>Delivered</td><td><b>Emily White</b></td><td><b>Bhaktapur</b></td><td>25 Nov, 2025</td><td>NPR. 9,999</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock admin_content %}

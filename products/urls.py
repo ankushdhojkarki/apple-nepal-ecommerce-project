@@ -1,6 +1,6 @@
-
 from django.urls import path, include
-from .views import   products_view, productdetails_view, addproducts_views, search_results, add_to_cart, cart_view, remove_from_cart, update_cart_quantity
+# Import the new cart_view function here
+from .views import products_view, productdetails_view, addproducts_views, search_results, add_to_cart, admin_dashboard_view, cart_view
 
 
 urlpatterns = [
@@ -10,11 +10,11 @@ urlpatterns = [
     path('add_products/', addproducts_views, name = 'add-products'),
     path('search/', search_results, name ='search'), 
     path('add-to-cart/<int:product_id>/', add_to_cart, name='add-to-cart'),
+    
+    # 🌟 NEW CART VIEW PATH (Resolves the NoReverseMatch error)
     path('cart/', cart_view, name='cart'),
-    path('remove-from-cart/<int:product_id>/', remove_from_cart, name='remove-from-cart'),
-    path('update-cart/<int:product_id>/', update_cart_quantity, name='update-cart'),
 
-]  
+    # NEW ADMIN DASHBOARD PATH
+    path('admin-dashboard/', admin_dashboard_view, name='admin-dashboard'),
 
- 
-
+]
