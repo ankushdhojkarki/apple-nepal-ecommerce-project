@@ -1,6 +1,5 @@
 {% extends "master.html" %}
 {% load humanize %}
-<-- SNIPPET STARTS -->
 {% block title %}{{ product.product_name }} Details - Apple Nepal{% endblock %}
 
 {% block content %}
@@ -22,20 +21,24 @@
                 NPR. {{ product.product_price|intcomma }}
             </h3>
 
-            <div class="mb-4">
-                <label class="form-label fw-500 mb-2">Quantity:</label>
-                <div class="row">
-                    <div class="col-4 col-sm-3 col-md-4 col-lg-3">
-                        <input type="number" class="form-control" value="1" min="1" />
+            <form method="POST" action="{% url 'add-to-cart' product.product_id %}">
+                {% csrf_token %}
+
+                <div class="mb-4">
+                    <label for="id_quantity" class="form-label fw-500 mb-2">Quantity:</label>
+                    <div class="row">
+                        <div class="col-4 col-sm-3 col-md-4 col-lg-3">
+                            <input type="number" id="id_quantity" name="quantity" class="form-control" value="1" min="1" />
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="d-grid gap-3">
-                <button class="btn btn-primary btn-lg">Add to Cart</button>
-                <a href="{% url 'products' %}" class="btn btn-outline-secondary btn-lg">Back to Products</a>
+                <div class="d-grid gap-3">
+                    <button type="submit" class="btn btn-primary btn-lg">Add to Cart</button>
+                    <a href="{% url 'products' %}" class="btn btn-outline-secondary btn-lg">Back to Products</a>
+                </div>
+            </form>
             </div>
-        </div>
     </div>
 </div>
 {% endblock %}
