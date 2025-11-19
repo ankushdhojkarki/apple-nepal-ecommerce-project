@@ -4,6 +4,7 @@ from products.forms import AddProductsForm
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.urls import reverse
+from django.db.models import Q
 
 # Create your views here.
 def is_admin(user):
@@ -42,5 +43,24 @@ def productdetails_view(request, pk):
     product = get_object_or_404(Products, product_id=pk)
     context = {'product':product}
     return render(request, 'product-details.html', context)
+
+def search_results(request):
+    query = request.GET.get('q')
+    products = Products.objects.all()
+
+    if query:
+        products= Products.objects.filter(
+            Q(product_name__icontains=query) |
+            Q(product_details__icontains=query) |
+            Q(category__category_name__icontains=query)
+        ).distinct()
+
+    context = {
+        'query':query,
+        'products':products,
+        'result_count':products.count(),
+    }
+
+    return render(request, 'products.html', context)
 
 

@@ -1,20 +1,37 @@
 {% extends "master.html" %}
-{% load humanize %}
-<-- SNIPPET STARTS -->
+
 {% block title %}Products - Apple Nepal{% endblock %}
 
 {% block nav_products_active %}active{% endblock %}
 
 {% block content %}
+{% load humanize %} 
+
+{% if query %}
+<header class="bg-light py-5">
+    <div class="container">
+        <h1 class="display-5 fw-bold text-center mb-2">Search Results for: "{{ query }}"</h1>
+        <p class="lead text-center text-muted">
+            Found {{ products|length }} item(s). 
+            {% if products|length == 0 %}Please try a different search term.{% endif %}
+        </p>
+    </div>
+</header>
+{% else %}
 <header class="bg-light py-5">
     <div class="container">
         <h1 class="display-5 fw-bold text-center mb-2">All Products</h1>
         <p class="lead text-center text-muted">Browse our full range of items.</p>
     </div>
 </header>
+{% endif %}
 
 <div class="container my-5">
     <div class="row g-4 d-flex align-items-stretch">
+        {% comment %} 
+            The product loop below will automatically use the filtered 
+            `products` list when coming from the search view.
+        {% endcomment %}
         {% for product in products %}
         <div class="col-md-3 d-flex">
             <div class="card h-100 product-card">

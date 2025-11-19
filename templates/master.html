@@ -58,6 +58,24 @@
             >
 
             {% endif %}
+            <form
+              class="d-flex"
+              role="search"
+              action="{% url 'search' %}"
+              method="GET"
+            >
+              <input
+                class="form-control me-2"
+                type="search"
+                placeholder="Search Apple products"
+                aria-label="Search"
+                name="q"
+                value="{{ request.GET.q|default:'' }}"
+              />
+              <button class="btn btn-outline-success" type="submit">
+                Search
+              </button>
+            </form>
           </div>
         </div>
       </div>
