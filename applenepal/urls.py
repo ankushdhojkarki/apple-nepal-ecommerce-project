@@ -20,6 +20,37 @@ from django.urls import path, include
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
+from django.urls import path, include
+# from django.contrib.auth.models import User
+from products.models import Products
+from categories.models import Categories
+from rest_framework import routers, serializers, viewsets
+
+# Serializers define the API representation.
+class ProductsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Products
+        fields = '__all__'
+
+# ViewSets define the view behavior.
+class ProductsViewSet(viewsets.ModelViewSet):
+    queryset = Products.objects.all()
+    serializer_class = ProductsSerializer
+
+class CategoriessSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Categories
+        fields = '__all__'
+
+class CategoriesViewSet(viewsets.ModelViewSet):
+    queryset = Categories.objects.all()
+    serializer_class = CategoriessSerializer
+
+
+# Routers provide an easy way of automatically determining the URL conf.
+router = routers.DefaultRouter()
+router.register(r'products', ProductsViewSet)
+router.register(r'categories', CategoriesViewSet)
 
 
 urlpatterns = [
@@ -32,6 +63,8 @@ urlpatterns = [
     path('products/', include("products.urls")),
     path('accounts/', include("django.contrib.auth.urls")),
     path('accounts/', include("accounts.urls")),
+    path('api/', include(router.urls)),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
       
 ]
 
