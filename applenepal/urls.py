@@ -26,6 +26,7 @@ from products.models import Products
 from categories.models import Categories
 from rest_framework import routers, serializers, viewsets
 
+
 # Serializers define the API representation.
 class ProductsSerializer(serializers.ModelSerializer):
     class Meta:

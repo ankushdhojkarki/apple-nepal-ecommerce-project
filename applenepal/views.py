@@ -2,14 +2,14 @@ from django.shortcuts import render, get_object_or_404
 from products.models import Products 
 from django.http import Http404
 from categories.models import Categories
-
+from django.views.decorators.cache import cache_page
 
 # View Functions
-
+@cache_page(60*10)
 def home_view(request):
     context = {'featured_products': Products.objects.all().order_by('product_id')[:4] } 
     return render(request, 'index.html', context)
-
+@cache_page(60*10)
 def categories_view(request):
     context = {'categories': Categories.objects.all()}
     return render(request, 'categories.html', context)
