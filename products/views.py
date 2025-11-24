@@ -6,13 +6,14 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.urls import reverse
 from django.db.models import Q
 from django.contrib import messages
+from django.views.decorators.cache import cache_page
 
 # Helper function to check if a user is an admin
 def is_admin(user):
     return user.is_superuser
 
 # --- Core Views ---
-
+@cache_page(60*10)
 def home_view(request):
     # This view is called from the traceback, serves the main index page.
     # Assumed logic: fetch a few products to display on the home page.
@@ -24,11 +25,13 @@ def home_view(request):
     context = {'featured_products': featured_products}
     return render(request, 'index.html', context)
 
+@cache_page(60*10)
 def products_view(request):
     # This view displays all products
     context = {'products': Products.objects.all()}
     return render(request, 'products.html', context)
 
+@cache_page(60*10)
 def productdetails_view(request, pk):
     # This view displays a single product's details
     product = get_object_or_404(Products, product_id=pk)
@@ -36,7 +39,7 @@ def productdetails_view(request, pk):
     return render(request, 'product-details.html', context)
 
 # --- Cart Views ---
-
+@cache_page(60*10)
 def add_to_cart(request, product_id):
     """
     Handles adding an item to the cart or changing its quantity/removing it.
@@ -83,6 +86,7 @@ def add_to_cart(request, product_id):
     return redirect('cart')
 
 # 🌟 NEW VIEW TO FIX THE NOREVERSEMATCH ERROR 🌟
+@cache_page(60*10)
 def cart_view(request):
     """
     Displays the contents of the shopping cart by retrieving product details 
@@ -130,6 +134,7 @@ def cart_view(request):
 
 @login_required
 @user_passes_test(is_admin)
+@cache_page(60*10)
 def addproducts_views(request):
     context = {}
     submitted = False
@@ -154,6 +159,7 @@ def addproducts_views(request):
 
 @login_required
 @user_passes_test(is_admin)
+@cache_page(60*10)
 def admin_dashboard_view(request):
     # Retrieve the count of all products from the database model
     total_products = Products.objects.count()
@@ -164,7 +170,6 @@ def admin_dashboard_view(request):
     return render(request, 'admin_dashboard.html', context)
 
 # --- Search View ---
-
 def search_results(request):
     """
     Handles search queries and displays matching products.

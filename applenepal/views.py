@@ -4,12 +4,13 @@ from django.http import Http404
 from categories.models import Categories
 from django.views.decorators.cache import cache_page
 
+
 # View Functions
 @cache_page(60*10)
 def home_view(request):
     context = {'featured_products': Products.objects.all().order_by('product_id')[:4] } 
     return render(request, 'index.html', context)
-@cache_page(60*10)
+
 def categories_view(request):
     context = {'categories': Categories.objects.all()}
     return render(request, 'categories.html', context)
@@ -24,6 +25,7 @@ def products_view(request):
         all_products = all_products.filter(category_id = int(category_id)) 
     context = {'products': all_products}
     return render(request, 'products.html', context)
+
 
 def productdetails_view(request, pk):
     product_id_str = request.GET.get('id')  
