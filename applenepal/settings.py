@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'accounts',
     'widget_tweaks',
     'rest_framework',
+    'django_filters',
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -156,4 +157,9 @@ CACHES = {
         },
         "TIMEOUT": 300, # 5 minutes
     }
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 100
 }

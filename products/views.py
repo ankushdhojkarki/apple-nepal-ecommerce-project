@@ -8,6 +8,7 @@ from django.db.models import Q
 from django.contrib import messages
 from django.views.decorators.cache import cache_page
 
+
 # Helper function to check if a user is an admin
 def is_admin(user):
     return user.is_superuser
